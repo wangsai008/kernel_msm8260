@@ -43,10 +43,13 @@
  * The PLL hardware has a minimum frequency of 384MHz.
  * Calibration should respect this limit. */
 #define L_VAL_SCPLL_CAL_MIN	0x08 /* =  432 MHz with 27MHz source */
+#define L_VAL_SCPLL_CAL_MAX  	0x20 /* = 1728 MHz with 27MHz source */
+#define FREQ_TABLE_SIZE 36
 
-#define MAX_VDD_SC		1325000 /* uV */
-#define MAX_VDD_MEM		1325000 /* uV */
-#define MAX_VDD_DIG		1200000 /* uV */
+#define MAX_VDD_SC		1350000 /* uV */
+#define MIN_VDD_SC     		 800000 /* uV */
+#define MAX_VDD_MEM		1350000 /* uV */
+#define MAX_VDD_DIG		1300000 /* uV */
 #define MAX_AXI			 310500 /* KHz */
 #define SCPLL_LOW_VDD_FMAX	 594000 /* KHz */
 #define SCPLL_LOW_VDD		1000000 /* uV */
@@ -82,8 +85,6 @@
 
 /* PTE EFUSE register. */
 #define QFPROM_PTE_EFUSE_ADDR		(MSM_QFPROM_BASE + 0x00C0)
-
-#define FREQ_TABLE_SIZE 36
 
 static const void * const clk_ctl_addr[] = {SPSS0_CLK_CTL_ADDR,
 			SPSS1_CLK_CTL_ADDR};
@@ -158,6 +159,7 @@ static struct msm_bus_paths bw_level_tbl[] = {
 	[1] = BW_MBPS(1336), /* At least 167 MHz on bus. */
 	[2] = BW_MBPS(2008), /* At least 251 MHz on bus. */
 	[3] = BW_MBPS(2480), /* At least 310 MHz on bus. */
+	[4] = BW_MBPS(3200), /* At least 360 MHz on bus. */
 };
 
 static struct msm_bus_scale_pdata bus_client_pdata = {
@@ -190,7 +192,7 @@ static struct clkctl_l2_speed l2_freq_tbl_v2[] = {
 	[16] = {1242000,  1, 0x17, 1200000, 1212500, 3},
 	[17] = {1296000,  1, 0x18, 1200000, 1225000, 3},
 	[18] = {1350000,  1, 0x19, 1200000, 1225000, 3},
-	[19] = {1404000,  1, 0x1A, 1200000, 1250000, 3},
+	[19] = {1404000,  1, 0x1A, 1200000, 1250000, 4},
 };
 
 #define L2(x) (&l2_freq_tbl_v2[(x)])
@@ -779,6 +781,7 @@ static __init struct clkctl_acpu_speed *select_freq_plan(void)
 
 	max_khz = 1914000;
 	acpu_freq_tbl = acpu_freq_tbl_oc;
+	pr_info("ACPU PVS: OC\n");
 
 	/* Truncate the table based to max_khz. */
 	for (f = acpu_freq_tbl; f->acpuclk_khz != 0; f++) {

@@ -203,10 +203,10 @@ static struct clkctl_l2_speed l2_freq_tbl_v2[] = {
 #define L2(x) (&l2_freq_tbl_v2[(x)])
 /* SCPLL frequencies = 2 * 27 MHz * L_VAL */
 static struct clkctl_acpu_speed acpu_freq_tbl_oc[] = {
-  { {1, 1},  138000,   ACPU_PLL_8, 3, 1, 0, 0,    L2(0),   750000, 0x03006000},
+  { {1, 1},   84000,   ACPU_PLL_8, 3, 1, 0, 0,    L2(0),   750000, 0x03006000},
   /* MAX_AXI row is used to source CPU cores and L2 from the AFAB clock. */
+  { {1, 1},  138000,  ACPU_PLL_8, 3, 1, 0, 0,    L2(0),   775000, 0x03006000},
   { {1, 1},  192000,  ACPU_PLL_8, 3, 1, 0, 0,    L2(0),   775000, 0x03006000},
-  { {1, 1},  288000,  ACPU_PLL_8, 3, 1, 0, 0,    L2(0),   775000, 0x03006000},
   { {0, 0},  MAX_AXI, ACPU_AFAB,  1, 0, 0, 0,    L2(0),   800000, 0x03006000},
   { {1, 1},  384000,  ACPU_PLL_8, 3, 0, 0, 0,    L2(1),   825000, 0x03006000},
   { {1, 1},  432000,  ACPU_SCPLL, 0, 0, 1, 0x08, L2(1),   850000, 0x03006000},
@@ -243,9 +243,9 @@ static struct clkctl_acpu_speed acpu_freq_tbl_oc[] = {
   { {1, 1}, 1728000,  ACPU_SCPLL, 0, 0, 1, 0x20, L2(22), 1300000, 0x03006000},
   { {1, 1}, 1782000,  ACPU_SCPLL, 0, 0, 1, 0x21, L2(22), 1325000, 0x03006000},
   { {1, 1}, 1836000,  ACPU_SCPLL, 0, 0, 1, 0x22, L2(22), 1337500, 0x03006000},
-  { {1, 1}, 1890000,  ACPU_SCPLL, 0, 0, 1, 0x23, L2(22), 1350000, 0x03006000},
-  { {1, 1}, 1914000,  ACPU_SCPLL, 0, 0, 1, 0x24, L2(22), 1375000, 0x03006000},
+  { {1, 1}, 1899000,  ACPU_SCPLL, 0, 0, 1, 0x23, L2(22), 1350000, 0x03006000},
   /* Extra OC code
+  { {1, 1}, 1912000,  ACPU_SCPLL, 0, 0, 1, 0x24, L2(22), 1375000, 0x03006000},
   { {1, 1}, 1998000,  ACPU_SCPLL, 0, 0, 1, 0x25, L2(22), 1375000, 0x03006000},
   { {1, 1}, 2052000,  ACPU_SCPLL, 0, 0, 1, 0x26, L2(22), 1400000, 0x03006000},
 End of Extra CPU OC code */
@@ -904,3 +904,4 @@ static int __init acpuclk_8x60_init(struct acpuclk_soc_data *soc_data)
 struct acpuclk_soc_data acpuclk_8x60_soc_data __initdata = {
 	.init = acpuclk_8x60_init,
 };
+
